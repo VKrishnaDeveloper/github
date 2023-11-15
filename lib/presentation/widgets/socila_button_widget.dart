@@ -13,7 +13,31 @@ class SocialSignIn extends StatelessWidget {
           buildBtn(
               "Sign in with Facebook", Colors.blue, Icons.facebook, context),
           const SizedBox(height: 10),
-          buildBtn("Sign in with Gmail", Colors.red, Icons.email, context)
+          buildBtn("Sign in with Gmail", Colors.red, Icons.email, context),
+          // Visibility(
+          //   visible: isFaceIdEnabled ? true : true,
+          //   child: Container(
+          //     child: _supportState == _SupportState.supported
+          //         ? Padding(
+          //             padding: AppBottomPaddings.small,
+          //             child: GestureDetector(
+          //               child: Container(
+          //                 child: Image.asset(
+          //                   ImageAsset.faceId,
+          //                   fit: BoxFit.fill,
+          //                   height: getVerticalSize(DIMENSION_40),
+          //                   width: getVerticalSize(DIMENSION_40),
+          //                 ),
+          //               ),
+          //               onTap: () async {
+          //                 FocusManager.instance.primaryFocus?.unfocus();
+          //                 _authenticate();
+          //               },
+          //             ),
+          //           )
+          //         : null,
+          //   ),
+          // ),
         ],
       ),
     );

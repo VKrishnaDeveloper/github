@@ -47,4 +47,11 @@ class AppColors {
   static const dividerGray = Color(0xffC0C0C4);
   static const lightGray = Color(0xffE6E6EA);
   static const orangeColor = Color(0xffE66938);
+  static const Color secondaryColor80LightTheme = Color(0xFF202225);
+  static const Color secondaryColor60LightTheme = Color(0xFF313336);
+  static const Color secondaryColor40LightTheme = Color(0xFF585858);
+  static const Color secondaryColor20LightTheme = Color(0xFF787F84);
+  static const Color secondaryColor10LightTheme = Color(0xFFEEEEEE);
+  static const Color secondaryColor5LightTheme = Color(0xFFF8F8F8);
+  static const Color textColorLightTheme = Color(0xFF0D0D0E);
 }

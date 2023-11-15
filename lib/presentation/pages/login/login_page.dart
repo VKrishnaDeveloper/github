@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:my_hub_user/core/color/app_colors.dart';
 import 'package:my_hub_user/core/components/background.dart';
 import 'package:my_hub_user/core/constnats/constants.dart';
+import 'package:my_hub_user/core/constnats/image_asset.dart';
+import 'package:my_hub_user/presentation/pages/home/home_screen.dart';
 import 'package:my_hub_user/presentation/pages/signup/registration_screen.dart';
 import 'package:my_hub_user/presentation/widgets/socila_button_widget.dart';
-
+import '../../../core/theme/app_paddings.dart';
 import '../../../core/utils/foldable_sidebar.dart';
-import '../../side_menu/side_menu_scree.dart';
-import '../home/home_screen.dart';
-import '../home/home_screen_content.dart';
+import '../../../core/utils/pref_utils.dart';
+import '../../maps/google_map_screen.dart';
+import '../../maps/map_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static final _formKey = GlobalKey<FormState>();
@@ -18,9 +25,26 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   FSBStatus? drawerStatus;
+  late final LocalAuthentication auth;
+  bool _supportState = false;
+  bool _isAuthenticating = false;
+  String _authorized = 'Not Authorized';
+
+  @override
+  void initState() {
+    auth = LocalAuthentication();
+    auth.isDeviceSupported().then((bool isSupported) {
+      setState(() {
+        _supportState = isSupported;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool isFaceIdEnabled =
+        PrefUtils().getBoolValue(SharedPreferencesString.isFaceIdEnabled);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -103,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Navigate the user to the Home page
 
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MyHomePage()));
+                            builder: (context) => GoogleMapScreen()));
                       } else {
                         // ScaffoldMessenger.of(context).showSnackBar(
                         //   const SnackBar(content: Text('Please fill input')),
@@ -147,9 +171,62 @@ class _LoginScreenState extends State<LoginScreen> {
                     // alignment: Alignment.centerRight,
                     // margin:
                     // const EdgeInsets.symmetric(horizontal: 60, vertical: 0),
-                    child: const Padding(
-                  padding: EdgeInsets.only(left: 80, right: 50),
-                  child: SocialSignIn(),
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    if (_supportState)
+                      Platform.isAndroid
+                          ? Padding(
+                              padding: const EdgeInsets.only(right: 0.0),
+                              child: GestureDetector(
+                                child: Image.asset(
+                                  ImageAsset.fingerPrint,
+                                  fit: BoxFit.fill,
+                                  height: 80,
+                                  width: 80,
+                                  color: AppColors.primaryColor,
+                                ),
+                                onTap: () async {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  _authenticate();
+                                },
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(right: 0.0),
+                              child: GestureDetector(
+                                child: Image.asset(
+                                  ImageAsset.faceId,
+                                  fit: BoxFit.fill,
+                                  height: 80,
+                                  width: 80,
+                                  color: AppColors.primaryColor,
+                                ),
+                                onTap: () async {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  _authenticate();
+                                },
+                              ),
+                            )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: Image.asset(
+                          ImageAsset.faceId,
+                          fit: BoxFit.fill,
+                          height: 80,
+                          width: 80,
+                          color: AppColors.whiteColor,
+                        ),
+                      ),
+                    const SizedBox(
+                      width: 0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30.0),
+                      child: const SocialSignIn(),
+                    ),
+                  ],
                 )),
                 Container(
                   alignment: Alignment.centerRight,
@@ -170,12 +247,49 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Color(0xFF2661FA)),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _authenticate() async {
+    bool authenticated = false;
+    try {
+      setState(() {
+        _isAuthenticating = true;
+        _authorized = 'Authenticating';
+      });
+      authenticated = await auth.authenticate(
+        localizedReason: 'Let OS determine authentication method',
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+        ),
+      );
+      setState(() {
+        _isAuthenticating = false;
+      });
+    } on PlatformException catch (e) {
+      print(e);
+      setState(() {
+        _isAuthenticating = false;
+        _authorized = 'Error - ${e.message}';
+      });
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      if (authenticated) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => MyHomePage()));
+        // authVerifyLoginNavigation();
+      } else {}
+    });
   }
 }

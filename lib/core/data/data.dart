@@ -58,12 +58,18 @@ class DataClassDataClass {
   ];
 
   static List<MyHubProductsModel> productsList = [
-    MyHubProductsModel('Almond', "450", "1KG", "assets/images/almond.jpeg"),
-    MyHubProductsModel('Apple', "50", "1000gm", "assets/images/apple.jpeg"),
-    MyHubProductsModel('Banana', "100", "1000gm", "assets/images/banana.jpeg"),
-    MyHubProductsModel('Cashew', "890", "Get 1KG", "assets/images/cashew.jpeg"),
+    MyHubProductsModel('Almond', 450.0, "1KG", "assets/images/almond.jpeg"),
+    MyHubProductsModel('Apple', 50.0, "1000gm", "assets/images/apple.jpeg"),
+    MyHubProductsModel('Banana', 180.0, "1000gm", "assets/images/banana.jpeg"),
     MyHubProductsModel(
-        'Chana Dal', "110", "1KG", "assets/images/chana_dal.jpeg"),
-    MyHubProductsModel('Coffee', "600", "1000gm", "assets/images/coffee.jpeg"),
+        'Cashew', 890.24, "Get 1KG", "assets/images/cashew.jpeg"),
+    MyHubProductsModel(
+        'Chana Dal', 110.0, "1KG", "assets/images/chana_dal.jpeg"),
+    MyHubProductsModel('Coffee', 600.0, "1000gm", "assets/images/coffee.jpeg"),
+    MyHubProductsModel('Pista', 180.0, "1000gm", "assets/images/banana.jpeg"),
+    MyHubProductsModel(
+        'Orange', 890.24, "Get 1KG", "assets/images/cashew.jpeg"),
+    MyHubProductsModel('Kiwi', 110.0, "1KG", "assets/images/chana_dal.jpeg"),
+    MyHubProductsModel('Coffee', 600.0, "1000gm", "assets/images/coffee.jpeg"),
   ];
 }

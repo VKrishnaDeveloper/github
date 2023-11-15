@@ -39,7 +39,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const Text(
                 "Cab",
-                style: TextStyle(color: Colors.white, fontSize: 10),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -60,7 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const Text(
                 "Tour",
-                style: TextStyle(color: Colors.white, fontSize: 10),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -81,7 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const Text(
                 "Driver",
-                style: TextStyle(color: Colors.white, fontSize: 10),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -102,7 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const Text(
                 "Delivery",
-                style: TextStyle(color: Colors.white, fontSize: 10),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
               )
             ],
           ),
